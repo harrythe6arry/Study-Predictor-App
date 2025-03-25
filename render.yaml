@@ -1,0 +1,6 @@
+services:
+  - type: web
+    name: stats-predictor
+    env: python
+    buildCommand: "poetry install"
+    startCommand: "poetry run python -m app.wsgi"

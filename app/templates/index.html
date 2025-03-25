@@ -3,9 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Basic Index</title>
+    <title>Predict GPA Score</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
-    <h1>Hello, World!</h1>
+<body class="bg-gray-100">
+    <div class="container mx-auto p-4">
+        <div class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
+            <div class="p-8">
+                <h1 class="text-2xl font-bold mb-4 text-center">Predict GPA Score</h1>
+                <form method="POST" class="space-y-4">
+                    <div>
+                        <label for="study_time_weekly" class="block text-sm font-medium text-gray-700">Study Time Weekly:</label>
+                        <input type="number" id="study_time_weekly" name="study_time_weekly" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    </div>
+                    <div>
+                        <label for="absences" class="block text-sm font-medium text-gray-700">Absences:</label>
+                        <input type="number" id="absences" name="absences" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    </div>
+                    <div>
+                        <label for="tutoring" class="block text-sm font-medium text-gray-700">Tutoring:</label>
+                        <input type="number" id="tutoring" name="tutoring" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    </div>
+                    <div>
+                        <label for="sports" class="block text-sm font-medium text-gray-700">Sports:</label>
+                        <input type="number" id="sports" name="sports" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    </div>
+                    <div>
+                        <label for="music" class="block text-sm font-medium text-gray-700">Music:</label>
+                        <input type="number" id="music" name="music" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    </div>
+                    <div>
+                        <button type="submit" class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Submit</button>
+                    </div>
+                </form>
+                {% if predicted_gpa_score is not none %}
+                    <h2 class="mt-4 text-xl font-semibold">Predicted GPA Score: {{ 4 if predicted_gpa_score > 4 else predicted_gpa_score }}</h2>
+                {% endif %}
+                {% if error %}
+                    <p class="mt-4 text-red-500">{{ error }}</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
 </body>
 </html>
