@@ -1,10 +1,8 @@
 import os
 import pickle
-import numpy as np
-import pandas as pd
 from flask import Blueprint, render_template, request
 
-from app.model.predictor import gpa_model, gpa_model_path
+from app.model.predictor import predict_gpa, required_study_time
 
 app_routes = Blueprint('app_routes', __name__)
 
@@ -34,20 +32,13 @@ def index():
             study_time_weekly = int(request.form['study_time_weekly'])
             absences = int(request.form['absences'])
             tutoring = int(request.form['tutoring'])
-            sports = int(request.form['sports'])
-            music = int(request.form['music'])
 
             # Check that all inputs are valid
-            if not all(isinstance(i, int) for i in [study_time_weekly, absences, tutoring, sports, music]):
+            if not all(isinstance(i, int) for i in [study_time_weekly, absences, tutoring]):
                 raise ValueError("All inputs must be valid integers.")
-
-            # Define the column names (same as the features you used to train the model)
-            feature_names = ['StudyTimeWeekly', 'Absences', 'Tutoring', 'Sports', 'Music']
-
-            features = pd.DataFrame([[study_time_weekly, absences, tutoring, sports, music]], columns=feature_names)
-
-            # Predict using the model
-            predicted_gpa_score = gpa_model.predict(features)[0]
+            
+            # Predict the GPA
+            predicted_gpa_score = predict_gpa(study_time_weekly, tutoring, absences)
 
         except ValueError as e:
             error = "Invalid input. Please enter numerical values."

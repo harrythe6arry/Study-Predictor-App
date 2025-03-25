@@ -1,15 +1,16 @@
 import os
-import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LinearRegression
 import pickle
+import numpy as np
+import pandas as pd
 import gdown
+import scipy.stats as stats
+from sklearn.linear_model import LinearRegression 
 
-# Step 1: Download the dataset from Google Drive
+# Download the dataset from Google Drive
 file_id = "1wR7emkfTjEfAWzgmxn_-eKLZ6q989BNN"
 gdown.download(f"https://drive.google.com/uc?id={file_id}", "Student_performance_data.csv", quiet=False)
 
-# Step 2: Load dataset
+# Load dataset
 df = pd.read_csv("Student_performance_data.csv")
 print(f"✅ Dataset loaded successfully: {df.shape[0]} rows and {len(df.columns)} columns.")
 
@@ -20,23 +21,43 @@ MODEL_DIR = os.path.join(BASE_DIR, "../model")
 
 os.makedirs(MODEL_DIR, exist_ok=True)
 
-# Features and target variable
-X = df[['StudyTimeWeekly', 'Absences', 'Tutoring', 'Sports', 'Music']]
-y_gpa = df['GPA']
+def multiple_regression_model():
+    X = df[['StudyTimeWeekly', 'Tutoring', 'Absences']]
+    y = df['GPA']
+    
+    # Fit the model using Linear Regression
+    model = LinearRegression()
+    model.fit(X, y)
+    
+    # Get the model coefficients
+    b0 = model.intercept_ 
+    b1, b2, b3 = model.coef_
+    
+    # model equation
+    print(f"Model: GPA = {b0:.4f} + {b1:.4f} * StudyTimeWeekly + {b2:.4f} * Tutoring + {b3:.4f} * Absences")
+    
+    # Predict the GPA
+    y_pred = model.predict(X)
+    
+    # Calculate R-squared and Mean Squared Error
+    r_squared = model.score(X, y)
+    mse = np.mean((y - y_pred)**2)
+    
+    print(f"R-squared: {r_squared:.4f}")
+    print(f"Mean Squared Error: {mse:.4f}")
 
-# Train-test split
-X_train, X_test, y_train_gpa, y_test_gpa = train_test_split(X, y_gpa, test_size=0.2, random_state=42)
+    return b0, b1, b2, b3
 
-# Train the GPA prediction model
-gpa_model = LinearRegression()
-gpa_model.fit(X_train, y_train_gpa)
+b0, b1, b2, b3 = multiple_regression_model()
 
+def predict_gpa(study_time, tutoring, absences):
+    predicted_gpa = b0 + b1 * study_time + b2 * tutoring + b3 * absences
+    if predicted_gpa > 4.0:
+        predicted_gpa = 4.0
+    elif predicted_gpa < 0.0:
+        predicted_gpa = 0.0
+    return round(predicted_gpa, 2)
 
-
-# Save the trained model
-gpa_model_path = os.path.join(MODEL_DIR, "gpa_model.pkl")
-
-with open(gpa_model_path, 'wb') as f:
-    pickle.dump(gpa_model, f)
-
-print(f"✅ Model trained and saved successfully at: {gpa_model_path}")
+def required_study_time(expected_gpa, tutoring=0, absences=0):
+    required_study_time = (expected_gpa - b0 - b2 * tutoring - b3 * absences) / b1
+    return round(required_study_time,2)
