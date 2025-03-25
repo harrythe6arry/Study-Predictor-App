@@ -51,13 +51,19 @@ def multiple_regression_model():
 b0, b1, b2, b3 = multiple_regression_model()
 
 def predict_gpa(study_time, tutoring, absences):
+    print("Let's predict GPA" + str(study_time) + str(tutoring) + str(absences))
     predicted_gpa = b0 + b1 * study_time + b2 * tutoring + b3 * absences
     if predicted_gpa > 4.0:
-        predicted_gpa = 4.0
+        return 4.0
     elif predicted_gpa < 0.0:
-        predicted_gpa = 0.0
+        return 0.0
+    print(f"result{predicted_gpa}")
     return round(predicted_gpa, 2)
 
 def required_study_time(expected_gpa, tutoring=0, absences=0):
+    print("Let's predict hours" + str(expected_gpa) + str(tutoring) + str(absences))
     required_study_time = (expected_gpa - b0 - b2 * tutoring - b3 * absences) / b1
+    print(f"result{required_study_time}")
+    if required_study_time < 0:
+        return 0.0
     return round(required_study_time,2)
