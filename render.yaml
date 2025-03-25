@@ -3,4 +3,4 @@ services:
     name: stats-predictor
     env: python
     buildCommand: "poetry install"
-    startCommand: "poetry run gunicorn -b 0.0.0.0:$PORT app.wsgi:app"
+    startCommand: "poetry run gunicorn -b 0.0.0.0:3000 app.wsgi:app"
