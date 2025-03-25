@@ -1,17 +1,17 @@
-[project]
+[tool.poetry]
 name = "stats-project-study-predictor"
 version = "0.1.0"
 description = ""
-authors = [
-    {name = "harrythe6arry",email = "voravit.sri@student.mahidol.edu"}
-]
+authors = ["harrythe6arry <voravit.sri@student.mahidol.edu>"]
 readme = "README.md"
 requires-python = ">=3.10"
-dependencies = [
-    "flask (>=3.1.0,<4.0.0)",
-    "gunicorn (>=23.0.0,<24.0.0)"
-]
 
+[tool.poetry.dependencies]
+flask = ">=3.1.0,<4.0.0"
+gunicorn = ">=23.0.0,<24.0.0"
+
+[tool.poetry.dev-dependencies]
+gunicorn = "^21.2.0"
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
