@@ -8,11 +8,11 @@ readme = "README.md"
 [tool.poetry.dependencies]
 flask = ">=3.1.0,<4.0.0"
 gunicorn = ">=23.0.0,<24.0.0"
+python = ">=3.9"
 
-[tool.poetry.dev-dependencies]
-gunicorn = "^21.2.0"  # For production WSGI server (if only for production)
+[tool.poetry.group.dev.dependencies]
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
-python = ">=3.10"
+python = ">=3.7"
