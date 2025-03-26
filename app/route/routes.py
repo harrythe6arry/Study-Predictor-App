@@ -13,8 +13,14 @@ def index():
             prediction_type = request.form['prediction_type']
             absences = float(request.form['absences'])
             tutoring = float(request.form['tutoring'])
+            parent_support = request.form['parent_support']
+            extra_activities = request.form['extra_activities']
+            sport = request.form['sport']
+            music = request.form['music']
 
             print(f"absences: {absences}, tutoring: {tutoring}")
+            print(f"parent_support: {parent_support}, extra_activities: {extra_activities}")
+            print(f"sport: {sport}, music: {music}")
 
             if absences < 0:
                 return render_template('index.html', predicted_value=None, error="Please put absences greater than 0",
