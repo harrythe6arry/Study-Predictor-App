@@ -7,13 +7,6 @@ from sklearn.linear_model import LinearRegression
 df = pd.read_csv("Student_performance_data.csv")
 print(f"✅ Dataset loaded successfully: {df.shape[0]} rows and {len(df.columns)} columns.")
 
-# Define project paths
-BASE_DIR = os.path.abspath(os.path.dirname(__file__))
-PROJECT_ROOT = os.path.join(BASE_DIR, "../../")
-MODEL_DIR = os.path.join(BASE_DIR, "../model")
-
-os.makedirs(MODEL_DIR, exist_ok=True)
-
 def multiple_regression_model():
     X = df[['StudyTimeWeekly', 'Tutoring', 'Absences']]
     y = df['GPA']
