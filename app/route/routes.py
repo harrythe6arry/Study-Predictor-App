@@ -13,10 +13,10 @@ def index():
             prediction_type = request.form['prediction_type']
             absences = float(request.form['absences'])
             tutoring = float(request.form['tutoring'])
-            parent_support = request.form['parent_support']
-            extra_activities = request.form['extra_activities']
-            sport = request.form['sport']
-            music = request.form['music']
+            parent_support = int(request.form['parent_support'])
+            extra_activities = int(request.form['extra_activities'])
+            sport = int(request.form['sport'])
+            music = int(request.form['music'])
 
             print(f"absences: {absences}, tutoring: {tutoring}")
             print(f"parent_support: {parent_support}, extra_activities: {extra_activities}")
@@ -30,7 +30,7 @@ def index():
                 if study_time_weekly < 0:
                     return render_template('index.html', predicted_value=None, error="Please put study time greater than 0",
                                            prediction_type=prediction_type)
-                predicted_value = predict_gpa(study_time_weekly, tutoring, absences)
+                predicted_value = predict_gpa(study_time_weekly, tutoring, absences, parent_support, extra_activities, sport, music)
             elif prediction_type == "study_hours":
                 expected_gpa = float(request.form['expected_gpa'])
                 if expected_gpa < 0.0:
@@ -38,7 +38,7 @@ def index():
                 if expected_gpa > 4.0:
                     return render_template('index.html', predicted_value=None, error="Please put GPA less than or equal to 4",
                                            prediction_type=prediction_type)
-                predicted_value = required_study_time(expected_gpa, tutoring, absences)
+                predicted_value = required_study_time(expected_gpa, tutoring, absences, parent_support, extra_activities, sport, music)
             else:
                 error = "Invalid prediction type."
 
