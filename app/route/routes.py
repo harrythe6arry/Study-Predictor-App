@@ -1,26 +1,7 @@
-import os
-import pickle
 from flask import Blueprint, render_template, request
-
 from app.model.predictor import predict_gpa, required_study_time
 
 app_routes = Blueprint('app_routes', __name__)
-
-# Get the absolute path to the model files
-BASE_DIR = os.path.abspath(os.path.dirname(__file__))  # Get current file's directory
-MODEL_DIR = os.path.join(BASE_DIR, "../model")  # Move up to `app` then into `model`
-
-gpa_model_path = os.path.join(MODEL_DIR, "gpa_model.pkl")
-
-# Load models safely
-try:
-    with open(gpa_model_path, 'rb') as f:
-        study_model = pickle.load(f)
-except FileNotFoundError:
-    print("Error: Model files not found. Ensure 'gpa_model.pkl' exists in 'app/model/'.")
-    study_model = None
-
-
 @app_routes.route('/', methods=['GET', 'POST'])
 def index():
     predicted_value = None
